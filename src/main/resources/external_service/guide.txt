@@ -1,0 +1,6 @@
+java -jar external-services.jar
+
+port: localhost:7070 by default
+
+To change the port
+java -jar external-services.jar --server.port=8080
