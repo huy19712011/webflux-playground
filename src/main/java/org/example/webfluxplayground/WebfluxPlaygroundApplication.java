@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class WebfluxPlaygroundApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(WebfluxPlaygroundApplication.class, args);
+        System.out.println("running...");
     }
 
 }
