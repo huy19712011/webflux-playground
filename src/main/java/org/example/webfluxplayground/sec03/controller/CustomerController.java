@@ -23,9 +23,11 @@ public class CustomerController {
     }
 
     @GetMapping("{id}")
-    public Mono<CustomerDto> getCustomer(@PathVariable Integer id) {
+    public Mono<ResponseEntity<CustomerDto>> getCustomer(@PathVariable Integer id) {
 
-        return this.customerService.getCustomerById(id);
+        return this.customerService.getCustomerById(id)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -36,14 +38,26 @@ public class CustomerController {
 
 
     @PutMapping("{id}")
-    public Mono<CustomerDto> updateCustomer(@PathVariable Integer id, @RequestBody Mono<CustomerDto> mono) {
+    public Mono<ResponseEntity<CustomerDto>> updateCustomer(@PathVariable Integer id, @RequestBody Mono<CustomerDto> mono) {
 
-        return this.customerService.updateCustomer(id, mono);
+        return this.customerService.updateCustomer(id, mono)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
+
+    //@DeleteMapping("{id}")
+    //public Mono<Void> deleteCustomer(@PathVariable Integer id) {
+    //
+    //    return this.customerService.deleteCustomerById(id);
+    //}
 
     @DeleteMapping("{id}")
-    public Mono<Void> deleteCustomer(@PathVariable Integer id) {
+    public Mono<ResponseEntity<Void>> deleteCustomer(@PathVariable Integer id) {
 
-        return this.customerService.deleteCustomerById(id);
+        return this.customerService.deleteCustomerById(id)
+                .filter(b -> b)
+                .map(b -> ResponseEntity.ok().<Void>build())
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
+
 }
