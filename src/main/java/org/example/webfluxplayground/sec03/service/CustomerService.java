@@ -22,6 +22,11 @@ public class CustomerService {
                 .map(EntityDtoMapper::toDto);
     }
 
+    public Flux<CustomerDto> getAllCustomers(Integer page, Integer size) {
+        return this.customerRepository.findBy(PageRequest.of(page - 1, size)) // zero-indexed
+                .map(EntityDtoMapper::toDto);
+    }
+
     public Mono<CustomerDto> getCustomerById(Integer id) {
         return this.customerRepository.findById(id)
                 .map(EntityDtoMapper::toDto);

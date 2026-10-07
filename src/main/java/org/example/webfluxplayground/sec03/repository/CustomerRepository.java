@@ -1,6 +1,7 @@
 package org.example.webfluxplayground.sec03.repository;
 
 import org.example.webfluxplayground.sec03.entity.Customer;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.r2dbc.repository.Modifying;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
@@ -15,5 +16,8 @@ public interface CustomerRepository extends ReactiveCrudRepository<Customer, Int
     // for demo
     @Query("delete from customer where id=:id")
     Mono<Boolean> deleteCustomerById(Integer id);
+
+    // for pagination
+    Flux<Customer> findBy(Pageable pageable);
 
 }
