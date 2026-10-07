@@ -2,6 +2,7 @@ package org.example.webfluxplayground.sec05.controller;
 
 import org.example.webfluxplayground.sec05.dto.CustomerDto;
 import org.example.webfluxplayground.sec05.exceptions.ApplicationExceptions;
+import org.example.webfluxplayground.sec05.filter.Category;
 import org.example.webfluxplayground.sec05.service.CustomerService;
 import org.example.webfluxplayground.sec05.validator.RequestValidator;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,9 @@ public class CustomerController {
     }
 
     @GetMapping
-    public Flux<CustomerDto> allCustomers() {
+    public Flux<CustomerDto> allCustomers(@RequestAttribute("category") Category category) {
+
+        System.out.println(category);
         return this.customerService.getAllCustomers();
     }
 
