@@ -1,5 +1,6 @@
 package org.example.webfluxplayground.sec05.filter;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebExchange;
@@ -10,6 +11,7 @@ import reactor.core.publisher.Mono;
 import java.util.Map;
 import java.util.Objects;
 
+@Order(1)
 @Service
 public class AuthenticationWebFilter implements WebFilter {
 
