@@ -37,4 +37,30 @@ public class Lec05ErrorResponseTest extends AbstractWebClient{
                 .verify();
     }
 
+    @Test
+    public void exchange() {
+        this.client.get()
+                .uri("/lec05/calculator/{a}/{b}", 10, 20)
+                .header("operation", "+")
+
+                .exchangeToMono(this::decode)
+
+                .doOnNext(print())
+                .then()
+                .as(StepVerifier::create)
+                .expectComplete()
+                .verify();
+    }
+
+    private Mono<CalculatorResponse> decode(ClientResponse clientResponse) {
+        //clientResponse.cookies()
+        //clientResponse.headers()
+        log.info("status code: {}", clientResponse.statusCode());
+        if (clientResponse.statusCode().isError()) {
+            return clientResponse.bodyToMono(ProblemDetail.class)
+                    .doOnNext(pd -> log.info("{}", pd))
+                    .then(Mono.empty());
+        }
+        return clientResponse.bodyToMono(CalculatorResponse.class);
+    }
 }
