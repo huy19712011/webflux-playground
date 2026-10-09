@@ -27,7 +27,7 @@ public class ProductController {
     @PostMapping(value = "upload", consumes = MediaType.APPLICATION_NDJSON_VALUE)
     public Mono<UploadResponse> uploadProducts(@RequestBody Flux<ProductDto> flux) {
         log.info("invoked");
-        return this.service.saveProducts(flux)
+        return this.service.saveProducts(flux.doOnNext(dto -> log.info("received: {}", dto)))
                 .then(this.service.getProductsCount())
                 .map(count -> new UploadResponse(UUID.randomUUID(), count));
     }
